@@ -1,0 +1,4 @@
+**/application.yaml
+.idea/
+.gradle/
+build/
