@@ -30,12 +30,16 @@ public class DisasterLog {
 
     private LocalDateTime receivedAt;
 
+    @Column(unique = true)
+    private String apiSn; // 행안부에서 주는 고유 일련번호 (중복 방지용)
+
     @Builder
-    public DisasterLog(String disasterType, Integer dangerLevel, String targetArea, String rawMessage, LocalDateTime receivedAt) {
+    public DisasterLog(String disasterType, Integer dangerLevel, String targetArea, String rawMessage, LocalDateTime receivedAt, String apiSn) {
         this.disasterType = disasterType;
         this.dangerLevel = dangerLevel;
         this.targetArea = targetArea;
         this.rawMessage = rawMessage;
         this.receivedAt = receivedAt;
+        this.apiSn = apiSn;
     }
 }
