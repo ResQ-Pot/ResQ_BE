@@ -19,7 +19,7 @@ public class UserProfile {
     @Column(name = "profile_id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY) // 1:1 관계 명시
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -30,11 +30,14 @@ public class UserProfile {
     @Column(columnDefinition = "TEXT")
     private String specialNotes;
 
-    @Column(precision = 10, scale = 7) // 위경도는 BigDecimal 권장
+    @Column(precision = 10, scale = 7)
     private BigDecimal lastLat;
 
     @Column(precision = 10, scale = 7)
     private BigDecimal lastLng;
+
+    @Column(name = "current_zone", length = 100)
+    private String currentZone;
 
     @Column(name = "is_push_enabled")
     private Boolean isPushEnabled = true;
@@ -42,7 +45,7 @@ public class UserProfile {
     private String pushTypeSettings;
 
     @Builder
-    public UserProfile(User user, String residenceType, String floorInfo, String cohabitantsInfo, String specialNotes, BigDecimal lastLat, BigDecimal lastLng, Boolean isPushEnabled, String pushTypeSettings) {
+    public UserProfile(User user, String residenceType, String floorInfo, String cohabitantsInfo, String specialNotes, BigDecimal lastLat, BigDecimal lastLng, String currentZone, Boolean isPushEnabled, String pushTypeSettings) {
         this.user = user;
         this.residenceType = residenceType;
         this.floorInfo = floorInfo;
@@ -50,6 +53,7 @@ public class UserProfile {
         this.specialNotes = specialNotes;
         this.lastLat = lastLat;
         this.lastLng = lastLng;
+        this.currentZone = currentZone;
         this.isPushEnabled = isPushEnabled != null ? isPushEnabled : true;
         this.pushTypeSettings = pushTypeSettings;
     }

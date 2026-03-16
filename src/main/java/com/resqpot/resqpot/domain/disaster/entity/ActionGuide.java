@@ -15,22 +15,20 @@ public class ActionGuide {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "guide_id")
-    private Long id;
+    private Long id; // 기존 스타일대로 변수명은 id 유지
 
     private String disasterType;
-    private Integer targetDangerLevel;
-    private String targetResidenceType;
-    private String coreAction;
+    private Integer dangerLevel; // DBML에 맞춰 targetDangerLevel -> dangerLevel
+    private String title;        // DBML에 맞춰 coreAction -> title
 
     @Column(columnDefinition = "TEXT")
-    private String detailedDescription;
+    private String recommendedAction; // DBML에 맞춰 detailedDescription -> recommendedAction
 
     @Builder
-    public ActionGuide(String disasterType, Integer targetDangerLevel, String targetResidenceType, String coreAction, String detailedDescription) {
+    public ActionGuide(String disasterType, Integer dangerLevel, String title, String recommendedAction) {
         this.disasterType = disasterType;
-        this.targetDangerLevel = targetDangerLevel;
-        this.targetResidenceType = targetResidenceType;
-        this.coreAction = coreAction;
-        this.detailedDescription = detailedDescription;
+        this.dangerLevel = dangerLevel;
+        this.title = title;
+        this.recommendedAction = recommendedAction;
     }
 }
