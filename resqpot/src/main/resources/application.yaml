@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: resqpot
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/resqpot?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&allowPublicKeyRetrieval=true
+    username: root
+    password: gh2302*
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+safety:
+  api:
+    key: 93LVF66KQ5M1P21B
+
+weather:
+  api:
+    key: 7d0e5bf5dcddf5390d522f5fc1bec0b999dccf8d1a3624548518ce50e38d6f3b
