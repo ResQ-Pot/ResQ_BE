@@ -1,3 +1,5 @@
+package com.resqpot.resqpot.domain.device.entity;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
