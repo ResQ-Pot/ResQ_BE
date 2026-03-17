@@ -1,4 +1,5 @@
 //Postman test 용 Spring Security 비활성화
+// TODO 추후 로그인 기능 구현 시 Security 설정 변경. JWT 필터 추가?
 
 package com.resqpot.config;
 

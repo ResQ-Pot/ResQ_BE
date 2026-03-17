@@ -1,3 +1,6 @@
+//TODO 주석 부분 날씨 API 연동 후 채워넣기
+ 
+
 package com.resqpot.service;
 
 import com.resqpot.domain.*;
