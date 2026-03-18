@@ -68,4 +68,6 @@ jobs:
           service: '${{ env.SERVICE }}'
           region: '${{ env.REGION }}'
           image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO }}/api:${{ github.sha }}'
-          flags: '--allow-unauthenticated'
+          flags: |
+            --port=8080
+            --allow-unauthenticated
