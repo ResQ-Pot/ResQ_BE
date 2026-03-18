@@ -2,3 +2,9 @@
 .idea/
 .gradle/
 build/
+
+# Terraform
+*.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
