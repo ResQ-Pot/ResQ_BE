@@ -61,13 +61,18 @@ jobs:
           docker build --tag "${DOCKER_TAG}" .
           docker push "${DOCKER_TAG}"
 
-      # 5. Cloud Run으로 배포!
+      # 5. Cloud Run으로 배포 (환경변수 주입 추가)
       - name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: '${{ env.SERVICE }}'
           region: '${{ env.REGION }}'
           image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO }}/api:${{ github.sha }}'
+          # 여기에 3가지 키를 모두 적어줍니다.
+          env_vars: |
+            SAFETY_API_KEY=${{ secrets.SAFETY_API_KEY }}
+            WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }}
+            GOOGLE_PLACES_API_KEY=${{ secrets.GOOGLE_PLACES_API_KEY }}
           flags: |
             --port=8080
             --allow-unauthenticated
