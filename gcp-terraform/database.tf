@@ -1,12 +1,11 @@
-# Cloud SQL PostgreSQL 인스턴스 생성
-# cloud-proxy 연결
-resource "google_sql_database_instance" "postgres_instance" {
+# Cloud SQL MySQL 인스턴스 생성
+resource "google_sql_database_instance" "mysql_instance" {
   name             = "${local.common_project_name}-database"
-  database_version = "POSTGRES_15"
+  database_version = "MYSQL_8_0"
   region           = local.region
 
   settings {
-    tier = "db-f1-micro"
+    tier      = "db-f1-micro"
     disk_size = 100
 
     ip_configuration {
@@ -19,7 +18,8 @@ resource "google_sql_database_instance" "postgres_instance" {
     }
 
     backup_configuration {
-      enabled = true
+      enabled                        = true
+      binary_log_enabled             = true # MySQL PITR(특정 시점 복구)을 위해 필수
       point_in_time_recovery_enabled = true
     }
 
@@ -30,14 +30,14 @@ resource "google_sql_database_instance" "postgres_instance" {
 }
 
 # 데이터베이스 생성
-resource "google_sql_database" "postgres_db" {
+resource "google_sql_database" "mysql_db" {
   name     = local.database_name
-  instance = google_sql_database_instance.postgres_instance.name
+  instance = google_sql_database_instance.mysql_instance.name
 }
 
 # 데이터베이스 사용자 생성
-resource "google_sql_user" "postgres_user" {
-  name     = "" # TODO: 사용자 이름 입력
-  instance = google_sql_database_instance.postgres_instance.name
-  password = "" # TODO: 비밀번호 입력
+resource "google_sql_user" "mysql_user" {
+  name     = "root" # MySQL 기본 관리자 이름
+  instance = google_sql_database_instance.mysql_instance.name
+  password = var.db_password # 비밀번호 변수 처리! (여기에 직접 적지 마세요)
 }
