@@ -73,6 +73,7 @@ jobs:
             SAFETY_API_KEY=${{ secrets.SAFETY_API_KEY }}
             WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }}
             GOOGLE_PLACES_API_KEY=${{ secrets.GOOGLE_PLACES_API_KEY }}
-          flags: |
+            GOOGLE_PLACES_BASE_URL=https://maps.googleapis.com/maps/api/place/nearbysearch/json
+            flags: |
             --port=8080
             --allow-unauthenticated
