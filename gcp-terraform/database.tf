@@ -1,6 +1,6 @@
 # Cloud SQL MySQL 인스턴스 생성
 resource "google_sql_database_instance" "mysql_instance" {
-  name             = "${local.common_project_name}-database"
+  name             = "${local.common_project_name}-database-mysql"
   database_version = "MYSQL_8_0"
   region           = local.region
 
@@ -20,7 +20,6 @@ resource "google_sql_database_instance" "mysql_instance" {
     backup_configuration {
       enabled                        = true
       binary_log_enabled             = true # MySQL PITR(특정 시점 복구)을 위해 필수
-      point_in_time_recovery_enabled = true
     }
 
     availability_type = "REGIONAL"
