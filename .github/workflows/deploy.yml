@@ -24,19 +24,20 @@ jobs:
       - name: 'Checkout'
         uses: 'actions/checkout@v4'
 
-      # 1. GCP 인증 (아까 우리가 고생해서 만든 서비스 계정 사용!)
+      # 1. GCP 인증
       - id: 'auth'
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v2'
         with:
           workload_identity_provider: '${{ env.WORKLOAD_IDENTITY_PROVIDER }}'
           service_account: 'resqpot@resqpot-490506.iam.gserviceaccount.com'
+          token_format: 'access_token'
 
       # 2. 자바 세팅
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'adopt'
 
       # 3. 스프링 부트 빌드
