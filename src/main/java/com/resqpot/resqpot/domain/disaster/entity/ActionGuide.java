@@ -33,9 +33,4 @@ public class ActionGuide {
         this.title = title;
         this.recommendedAction = recommendedAction;
     }
-
-    public static Optional<ActionGuide> findTopByDisasterTypeAndDangerLevel(String disasterType2, int dangerLevel2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findTopByDisasterTypeAndDangerLevel'");
-    }
 }

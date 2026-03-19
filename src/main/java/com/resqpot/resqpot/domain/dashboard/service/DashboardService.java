@@ -3,12 +3,14 @@ package com.resqpot.resqpot.domain.dashboard.service;
 
 import com.resqpot.resqpot.domain.dashboard.dto.DashboardResponseDto;
 import com.resqpot.resqpot.domain.dashboard.dto.DashboardResponseDto.*;
-import com.resqpot.resqpot.domain.device.entity.HardwareDevice;
-import com.resqpot.resqpot.domain.device.entity.PlantMessage;
+import com.resqpot.resqpot.domain.device.repository.HardwareDeviceRepository; // 추가됨
+import com.resqpot.resqpot.domain.device.repository.PlantMessageRepository; // 추가됨
 import com.resqpot.resqpot.domain.disaster.client.WeatherApiClient;
 import com.resqpot.resqpot.domain.disaster.dto.WeatherData;
 import com.resqpot.resqpot.domain.disaster.entity.ActionGuide;
 import com.resqpot.resqpot.domain.disaster.entity.DisasterLog;
+import com.resqpot.resqpot.domain.device.entity.PlantMessage;
+import com.resqpot.resqpot.domain.disaster.repository.ActionGuideRepository; // 추가됨
 import com.resqpot.resqpot.domain.disaster.repository.DisasterLogRepository;
 import com.resqpot.resqpot.domain.user.entity.UserProfile;
 import com.resqpot.resqpot.domain.user.repository.UserProfileRepository;
@@ -27,6 +29,11 @@ public class DashboardService {
     private final UserProfileRepository userProfileRepository;
     private final DisasterLogRepository disasterLogRepository;
     private final WeatherApiClient weatherApiClient;
+
+    // 🌟 에러 해결: 데이터를 DB에서 꺼내올 레포지토리 3개 추가 주입
+    private final ActionGuideRepository actionGuideRepository;
+    private final HardwareDeviceRepository hardwareDeviceRepository;
+    private final PlantMessageRepository plantMessageRepository;
 
     /**
      * 메인 홈 대시보드 데이터 조회
@@ -69,7 +76,7 @@ public class DashboardService {
                 .userName(userName)
                 .currentWeather(CurrentWeatherDto.builder()
                         .temperature(weather.getTemperature())
-                        .precipitationProbability(weather.getPrecipitationProbability())
+                        .precipitationProbability((int) weather.getRainfallPerHour())
                         .windSpeed(weather.getWindSpeed())
                         .build())
                 .disasterSituation(DisasterSituationDto.builder()
@@ -117,15 +124,16 @@ public class DashboardService {
     private ActionGuideDto resolveActionGuide(UserProfile profile, Optional<DisasterLog> latestLog) {
         String disasterType = "NORMAL";
         int dangerLevel = 0;
- 
+
         if (latestLog.isPresent() && !"SAFE".equals(profile.getCurrentRiskLevel())) {
             disasterType = latestLog.get().getDisasterType();
             dangerLevel = Optional.ofNullable(latestLog.get().getDangerLevel()).orElse(1);
         }
- 
-        Optional<ActionGuide> guide = ActionGuide
+
+        // 🌟 에러 해결: ActionGuide(엔티티)가 아니라 actionGuideRepository(레포지토리)를 통해 호출
+        Optional<ActionGuide> guide = actionGuideRepository
                 .findTopByDisasterTypeAndDangerLevel(disasterType, dangerLevel);
- 
+
         return guide.map(g -> ActionGuideDto.builder()
                         .title(g.getTitle())
                         .recommendedAction(g.getRecommendedAction())
@@ -143,19 +151,22 @@ public class DashboardService {
      */
 
     private PlantStatusDto resolvePlantStatus(Long userId, UserProfile profile, Optional<DisasterLog> latestLog) {
-        boolean isConnected = HardwareDevice.findByUserId(userId).isPresent();
- 
+
+        // 🌟 에러 해결: HardwareDevice(엔티티)가 아니라 hardwareDeviceRepository(레포지토리)를 통해 호출
+        boolean isConnected = hardwareDeviceRepository.findByUserId(userId).isPresent();
+
         String disasterType = "NORMAL";
         int dangerLevel = 0;
- 
+
         if (latestLog.isPresent() && !"SAFE".equals(profile.getCurrentRiskLevel())) {
             disasterType = latestLog.get().getDisasterType();
             dangerLevel = Optional.ofNullable(latestLog.get().getDangerLevel()).orElse(1);
         }
- 
-        Optional<PlantMessage> plantMessage = PlantMessage
+
+        // 🌟 에러 해결: PlantMessage(엔티티)가 아니라 plantMessageRepository(레포지토리)를 통해 호출
+        Optional<PlantMessage> plantMessage = plantMessageRepository
                 .findByDisasterTypeAndDangerLevel(disasterType, dangerLevel);
- 
+
         return PlantStatusDto.builder()
                 .isConnected(isConnected)
                 .expression(plantMessage.map(PlantMessage::getExpression).orElse("SMILE"))
