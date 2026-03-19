@@ -16,4 +16,5 @@ public class NotificationDto {
     private String message;
     private String issuedAt;
     private String targetRegions;
+    private Integer dangerLevel;
 }

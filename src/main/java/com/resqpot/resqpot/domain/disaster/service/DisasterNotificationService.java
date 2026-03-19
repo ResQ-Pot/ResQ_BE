@@ -34,6 +34,11 @@ public class DisasterNotificationService {
         // 3. 필터링 및 DTO 변환
         List<NotificationDto> filteredList = allLogs.stream()
                 .filter(log -> {
+                    // 🌟 1번 요청 반영: disasterType이 '기타'인 경우 바로 필터링해서 버림!
+                    if ("기타".equals(log.getDisasterType())) {
+                        return false;
+                    }
+
                     // 조건 1: 파라미터가 없으면 무조건 통과 (전체 보기)
                     if (finalRegionToFilter == null || finalRegionToFilter.trim().isEmpty()) {
                         return true;
@@ -77,6 +82,10 @@ public class DisasterNotificationService {
                 .message(log.getRawMessage())
                 .issuedAt(log.getReceivedAt() != null ? log.getReceivedAt().toString() : "") // LocalDateTime을 문자열로
                 .targetRegions(log.getTargetArea())
+
+                // 🌟 2번 요청 반영: dangerLevel 필드 추가!
+                .dangerLevel(log.getDangerLevel())
+
                 .build();
     }
 }
