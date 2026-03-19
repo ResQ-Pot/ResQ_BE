@@ -2,12 +2,15 @@
 package com.resqpot.resqpot.domain.disaster.client;
 
 import com.resqpot.resqpot.domain.disaster.dto.WeatherData;
+
+import java.math.BigDecimal;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class WeatherApiClient {
 
-    public WeatherData fetchCurrentWeather(double lat, double lng) {
+    public WeatherData fetchCurrentWeather(BigDecimal lat, BigDecimal lng) {
         // [데모데이 전용 Mock 데이터]
         // 시나리오: "엄청난 태풍이 오고 있는 상황"을 가정하여 강수량과 풍속을 극단적으로 높입니다.
         return WeatherData.builder()

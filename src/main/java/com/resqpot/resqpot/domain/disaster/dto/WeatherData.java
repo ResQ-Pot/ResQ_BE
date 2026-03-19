@@ -19,5 +19,9 @@ public class WeatherData {
     private double windSpeed;       // 풍속
     private double temperature;     // 기온
     private double snowfall;        // 적설량
+    public Integer getPrecipitationProbability() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPrecipitationProbability'");
+    }
 
 }

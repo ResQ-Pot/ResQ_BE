@@ -1,6 +1,8 @@
 // src/main/java/com/resqpot/resqpot/domain/disaster/entity/ActionGuide.java
 package com.resqpot.resqpot.domain.disaster.entity;
 
+import java.util.Optional;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -30,5 +32,10 @@ public class ActionGuide {
         this.dangerLevel = dangerLevel;
         this.title = title;
         this.recommendedAction = recommendedAction;
+    }
+
+    public static Optional<ActionGuide> findTopByDisasterTypeAndDangerLevel(String disasterType2, int dangerLevel2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findTopByDisasterTypeAndDangerLevel'");
     }
 }

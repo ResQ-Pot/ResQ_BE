@@ -1,5 +1,7 @@
 package com.resqpot.resqpot.domain.device.entity;
 
+import java.util.Optional;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,5 +39,10 @@ public class PlantMessage {
         this.dangerLevel = dangerLevel;
         this.expression = expression;
         this.personaMessage = personaMessage;
+    }
+
+    public static Optional<PlantMessage> findByDisasterTypeAndDangerLevel(String disasterType2, int dangerLevel2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByDisasterTypeAndDangerLevel'");
     }
 }
