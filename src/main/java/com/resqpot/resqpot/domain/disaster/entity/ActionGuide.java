@@ -1,6 +1,8 @@
 // src/main/java/com/resqpot/resqpot/domain/disaster/entity/ActionGuide.java
 package com.resqpot.resqpot.domain.disaster.entity;
 
+import java.util.Optional;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

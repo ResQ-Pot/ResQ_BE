@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 @Table(name = "hardware_devices")
@@ -37,5 +38,10 @@ public class HardwareDevice {
         this.displayText = displayText;
         this.ledColorStatus = ledColorStatus;
         this.lastSyncAt = lastSyncAt;
+    }
+
+    public static Optional<HardwareDevice> findByUserId(Long userId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByUserId'");
     }
 }
