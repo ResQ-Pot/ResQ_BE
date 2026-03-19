@@ -9,4 +9,5 @@ import lombok.Getter;
 public class NotificationResponseDto {
     private String status;
     private NotificationDataDto data;
+    private Integer dangerLevel;
 }
