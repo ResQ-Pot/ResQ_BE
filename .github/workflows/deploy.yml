@@ -40,14 +40,20 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
 
-      # 3. 스프링 부트 빌드
+      # 🌟 [추가된 부분] 3. 깃허브 시크릿으로 application.yml 파일 만들기! 🌟
+      - name: Make application.yml
+        run: |
+          mkdir -p src/main/resources
+          echo "${{ secrets.APPLICATION_YML }}" > src/main/resources/application.yml
+
+      # 4. 스프링 부트 빌드
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew bootJar # (기존 코드의 복잡한 경로를 기본형으로 수정했습니다)
+        run: ./gradlew bootJar
 
-      # 4. 도커 로그인 및 빌드/푸시
+      # 5. 도커 로그인 및 빌드/푸시
       - name: 'Docker Auth'
         uses: 'docker/login-action@v3'
         with:
@@ -61,19 +67,19 @@ jobs:
           docker build --tag "${DOCKER_TAG}" .
           docker push "${DOCKER_TAG}"
 
-      # 5. Cloud Run으로 배포 (환경변수 주입 추가)
+      # 6. Cloud Run으로 배포
       - name: 'Deploy to Cloud Run'
         uses: 'google-github-actions/deploy-cloudrun@v2'
         with:
           service: '${{ env.SERVICE }}'
           region: '${{ env.REGION }}'
           image: '${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.GAR_REPO }}/api:${{ github.sha }}'
-          # 여기에 3가지 키를 모두 적어줍니다.
           env_vars: |
             SAFETY_API_KEY=${{ secrets.SAFETY_API_KEY }}
             WEATHER_API_KEY=${{ secrets.WEATHER_API_KEY }}
             GOOGLE_PLACES_API_KEY=${{ secrets.GOOGLE_PLACES_API_KEY }}
             GOOGLE_PLACES_BASE_URL=https://maps.googleapis.com/maps/api/place/nearbysearch/json
-            flags: |
+          # 🌟 [수정된 부분] 들여쓰기를 맞춰주어야 에러가 안 납니다! 🌟
+          flags: |
             --port=8080
             --allow-unauthenticated
